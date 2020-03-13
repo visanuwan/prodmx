@@ -1,1 +1,0 @@
-from prodmx.hello import engGreeting, thaGreeting
