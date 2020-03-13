@@ -1,46 +1,9 @@
 import pickle
-from collections import defaultdict
 from scipy.sparse import csr_matrix
 from scipy.sparse import save_npz
+from prodmx.util import sparse_row_col
 
-def build_csr_matrix(all_hmm_result):
-    row = []
-    col = []
-    data = []
-
-    list_col = []
-    list_row = []
-
-    with open(all_hmm_result, 'r') as f:
-        for idx_row, line in enumerate(f, start=0):
-            temp_line = line.strip().split("\t")
-            assembly = temp_line[0]
-            list_row.append(assembly)
-
-            agg_cols = defaultdict(int)
-            with open(temp_line[1], 'r') as arc_f:
-                for arc_line in arc_f:
-                    temp_arc_line = arc_line.strip().split("\t")
-                    agg_cols[temp_arc_line[1]] += 1
-            
-            if len(agg_cols) > 0:
-                for arc in agg_cols.keys():
-                    if arc in list_col:
-                        idx_col = list_col.index(arc)
-
-                        row.append(idx_row)
-                        col.append(idx_col)
-                        data.append(agg_cols[arc])
-
-                    else:
-                        idx_col = len(list_col)
-
-                        list_col.append(arc)
-
-                        row.append(idx_row)
-                        col.append(idx_col)
-                        data.append(agg_cols[arc])
-                
+def build_csr_matrix(out_fol_path, row, col, data, list_col, list_row):
     csr_mat = csr_matrix((data, (row, col)), shape=(len(list_row),len(list_col)))
     npz_path = "{}/csr_matrix.npz".format(out_fol_path)
     save_npz(npz_path, csr_mat)
