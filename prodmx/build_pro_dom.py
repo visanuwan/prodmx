@@ -1,9 +1,40 @@
 import sys
+import textwrap
+import argparse
 from tqdm import tqdm
 from collections import defaultdict
 import prodmx.pfam_filter as pfam_filter
 from prodmx.util import natural_sort, chk_mkdir
 from prodmx.build import build_csr_matrix
+
+def get_args():
+    parser = argparse.ArgumentParser(
+        description = textwrap.dedent('''\
+            Protein Functional Domain Analysis
+            based on Compressed Sparse Matrix
+            ************************************
+            - Build a protein domain matrix
+        '''),
+        prog = 'prodmx-buildDomain',
+        formatter_class = argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s beta')
+    parser.add_argument(
+        '-i', '--input',
+        type=str,
+        help='file containing IDs and paths to hmmsearch results'
+    )
+    parser.add_argument(
+        '-o', '--output',
+        type=str,
+        help='path to an output folder (not replace, if exists)'
+    )
+    args = parser.parse_args()
+
+    if len(sys.argv) == 1:
+        parser.print_help(sys.stderr)
+        sys.exit(1)
+
+    return args
 
 def get_filtered_dom(hmm_result):
     agg_cols = defaultdict(int)
@@ -54,8 +85,9 @@ def build_dom(all_hmm_result_path):
     return row, col, data, list_col, list_row
 
 def main():
-    all_hmm_result_path = sys.argv[1]
-    out_fol_path = sys.argv[2]
+    args = get_args()
+    all_hmm_result_path = args.input
+    out_fol_path = args.output
 
     print("\nmake folder for results at {}\n".format(out_fol_path))
     chk_mkdir(out_fol_path)

@@ -12,7 +12,7 @@ setup(name='prodmx',
       zip_safe=False,
       entry_points={
             'console_scripts': [
-                'prodmx-build-dom = prodmx.build_pro_dom:main',
-                'prodmx-build-arc = prodmx.build_pro_arc:main'
+                'prodmx-buildDomain = prodmx.build_pro_dom:main',
+                'prodmx-buildArchitecture = prodmx.build_pro_arc:main'
             ]
       })
