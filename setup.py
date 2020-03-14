@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='prodmx',
-      version='0.1',
+      version='beta',
       description='Protein Functional Domain Analysis based on Compressed Sparse Matrix',
       url='https://github.com/visanuwan/prodmx',
       author='Visanu Wanchai',
