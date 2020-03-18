@@ -35,4 +35,5 @@ def natural_sort(l):
 
 def chk_mkdir(d):
     if not isdir(d):
+        print("\ncreates a new folder at {}\n".format(d))
         mkdir(d)

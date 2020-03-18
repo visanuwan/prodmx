@@ -92,14 +92,23 @@ def main():
     all_hmm_result_path = args.input
     out_fol_path = args.output
 
-    print("\nmake folder for results at {}\n".format(out_fol_path))
+    head_run = textwrap.dedent('''\
+            Protein Functional Domain Analysis
+            based on Compressed Sparse Matrix
+            ************************************
+            - Build a protein domain matrix
+        ''')
+
+    print(head_run)
+
     chk_mkdir(out_fol_path)
 
-    print("\nfilter hmm results and make result objects\n")
+    print("\nfiltering hmm results and making result objects\n")
     row, col, data, list_col, list_row = build_arc(all_hmm_result_path)
 
-    print("\nwrite result objects to file\n")
+    print("\nwriting result objects to file\n")
     build_csr_matrix(out_fol_path, row, col, data, list_col, list_row)
+    print("\nfinished\n")
 
 
 if __name__ == "__main__":
