@@ -100,12 +100,12 @@ def main():
 
     chk_mkdir(out_fol_path)
 
-    print("\nfiltering hmm results and creating result objects\n")
+    print("filtering hmm results and creating result objects\n")
     row, col, data, list_col, list_row = build_dom(all_hmm_result_path)
 
-    print("\nwriting result objects to file\n")
+    print("writing result objects to file\n")
     build_csr_matrix(out_fol_path, row, col, data, list_col, list_row)
-    print("\nfinished\n")
+    print("finished\n")
 
 if __name__ == "__main__":
     exit(main())
