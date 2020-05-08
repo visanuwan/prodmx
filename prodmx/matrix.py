@@ -1,13 +1,17 @@
+import os
+import sqlite3
 import pickle
 import pandas as pd
+from configparser import ConfigParser
 from scipy.sparse import load_npz
-from prodmx.util import sparse_row_col
+from prodmx.util import sparse_row_col, sql_select_list_domain_protein
 
 class loadMatrix(object):
     def __init__(self, matrix_fol):
         self.matrix_fol = matrix_fol
         self.path_matrix_csr = "{}/csr_matrix.npz".format(self.matrix_fol)
         self.path_obj_row_col = "{}/obj_row_col.p".format(self.matrix_fol)
+        self.path_db = "{}/prodmx.db".format(self.matrix_fol)
         self.matrix = load_npz(self.path_matrix_csr)
         self.obj_pickle = pickle.load(open(self.path_obj_row_col, 'rb'))
         self.dict_row_pos = dict(zip(self.obj_pickle.list_row, [x for x in range(len(self.obj_pickle.list_row))]))
@@ -46,6 +50,23 @@ class loadMatrix(object):
             self.df_result = self.sumRow(list_row=list_row, list_col=list_col)
             self.df_return = self.df_result[self.df_result['row_sum'] >= self.num_cutoff]
             return self.df_return
+
+    def getProteinId(self, list_row, list_col, output):
+        if os.path.isfile(self.path_db):
+            template_query_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.ini')
+            config = ConfigParser()
+            config.read(template_query_path)
+            conn = sqlite3.connect(self.path_db)
+            with conn:
+                list_result = sql_select_list_domain_protein(list_row, list_col, config['select_domain_protein'].get('query'), conn)
+            df_result = pd.DataFrame(list_result)
+            df_result.to_csv(output, sep='\t', index=False, header=False)
+        else:
+            error_msg = '''
+                Database file does not exists.
+                Please rebuilt a matrix folder with -k option
+            '''
+            print(error_msg)
 
 
 class loadBinMatrix(object):
@@ -53,6 +74,7 @@ class loadBinMatrix(object):
         self.matrix_fol = matrix_fol
         self.path_matrix_csr = "{}/csr_matrix_bin.npz".format(self.matrix_fol)
         self.path_obj_row_col = "{}/obj_row_col.p".format(self.matrix_fol)
+        self.path_db = "{}/prodmx.db".format(self.matrix_fol)
         self.matrix = load_npz(self.path_matrix_csr)
         self.obj_pickle = pickle.load(open(self.path_obj_row_col, 'rb'))
         self.dict_row_pos = dict(zip(self.obj_pickle.list_row, [x for x in range(len(self.obj_pickle.list_row))]))
@@ -91,4 +113,21 @@ class loadBinMatrix(object):
             self.df_result = self.sumRow(list_row=list_row, list_col=list_col)
             self.df_return = self.df_result[self.df_result['row_sum'] >= self.num_cutoff]
             return self.df_return
+
+    def getProteinId(self, list_row, list_col, output):
+        if os.path.isfile(self.path_db):
+            template_query_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.ini')
+            config = ConfigParser()
+            config.read(template_query_path)
+            conn = sqlite3.connect(self.path_db)
+            with conn:
+                list_result = sql_select_list_domain_protein(list_row, list_col, config['select_domain_protein'].get('query'), conn)
+            df_result = pd.DataFrame(list_result)
+            df_result.to_csv(output, sep='\t', index=False, header=False)
+        else:
+            error_msg = '''
+                Database file does not exists.
+                Please rebuilt a matrix folder with -k option
+            '''
+            print(error_msg)
     

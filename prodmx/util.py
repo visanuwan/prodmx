@@ -1,6 +1,7 @@
 from os import mkdir
 from os.path import isdir
 from re import split
+import itertools
 
 class sparse_row_col(object):
     def __init__(self, **kwargs):
@@ -54,3 +55,12 @@ def sql_execute_record_get_lastrowid(sql, tup_record, conn):
 def sql_execute_record_get_fetchoneid(sql, tup_record, conn):
     c = conn.cursor()
     return c.execute(sql, tup_record).fetchone()[0]
+
+def sql_select_list_domain_protein(list_genome, list_domain, sql, conn):
+    list_result = []
+    for genome in list_genome:
+        for domain in list_domain:
+            c = conn.cursor()
+            tup = (genome, domain)
+            list_result = list(itertools.chain(list_result, c.execute(sql, tup).fetchall()))
+    return list_result

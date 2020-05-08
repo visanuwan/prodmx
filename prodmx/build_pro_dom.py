@@ -102,7 +102,7 @@ def build_dom(out_fol_path, args, config, all_hmm_result_path):
     list_col = []
     list_row = []
 
-    db_path = "{}/prodmx_dom.db".format(out_fol_path)
+    db_path = "{}/prodmx.db".format(out_fol_path)
 
     ############## create db ##############
 
