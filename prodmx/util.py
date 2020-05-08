@@ -37,3 +37,20 @@ def chk_mkdir(d):
     if not isdir(d):
         print("\ncreates a new folder at {}\n".format(d))
         mkdir(d)
+
+def sql_execute(sql, conn):
+    c = conn.cursor()
+    c.execute(sql)
+
+def sql_execute_record(sql, tup_record, conn):
+    c = conn.cursor()
+    c.execute(sql, tup_record)
+    
+def sql_execute_record_get_lastrowid(sql, tup_record, conn):
+    c = conn.cursor()
+    c.execute(sql, tup_record)
+    return c.lastrowid
+    
+def sql_execute_record_get_fetchoneid(sql, tup_record, conn):
+    c = conn.cursor()
+    return c.execute(sql, tup_record).fetchone()[0]

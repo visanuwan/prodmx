@@ -12,7 +12,11 @@ def read(fname):
 
 setup(name='prodmx',
       version='Beta',
-      install_requires=['pandas>=0.25.1', 'h5py>=2.9.0', 'numpy>=1.17.2', 'tqdm>=4.36.1', 'scipy>=1.3.1'],
+      install_requires=['pandas>=0.25.1',
+            'h5py>=2.9.0',
+            'numpy>=1.17.2',
+            'tqdm>=4.36.1',
+            'scipy>=1.3.1'],
       description='Protein Functional Domain Analysis based on Compressed Sparse Matrix',
       long_description=read('README.md'),
       url='https://github.com/visanuwan/prodmx',
@@ -27,6 +31,10 @@ setup(name='prodmx',
       license='MIT',
       packages=['prodmx'],
       package_dir={'prodmx':"prodmx"},
+      include_package_data = True,
+      package_data = {
+            '': ['*.ini'],
+      },
       zip_safe=False,
       entry_points={
             'console_scripts': [
