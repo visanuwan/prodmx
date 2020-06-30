@@ -11,7 +11,7 @@ def read(fname):
     return data
 
 setup(name='prodmx',
-      version='Beta',
+      version='0.1.0',
       install_requires=['pandas>=0.25.1',
             'h5py>=2.9.0',
             'numpy>=1.17.2',
