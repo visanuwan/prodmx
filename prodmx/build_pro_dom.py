@@ -13,9 +13,9 @@ from prodmx.build import build_csr_matrix
 def get_args():
     parser = argparse.ArgumentParser(
         description = textwrap.dedent('''\
-            Protein Functional Domain Analysis
+            ProdMX - Protein Functional Domain Analysis
             based on Compressed Sparse Matrix
-            ************************************
+            *******************************************
             - Build a protein domain matrix
         '''),
         prog = 'prodmx-buildDomain',
@@ -60,34 +60,34 @@ def get_filtered_dom_keep(db_path, config, genome_id, hmm_result):
     conn = sqlite3.connect(db_path)
 
     for prot_acc in natural_sort([*result_dict]):
-        set_domain_acc = set()
+        set_model_acc = set()
 
         for prot_result in pfam_filter.filter_hmmsearch_result_list(result_dict.get(prot_acc)):
             temp_result = prot_result.split('\t')
             agg_cols[temp_result[5]] += 1
 
-            domain_acc = temp_result[5]
-            set_domain_acc.add(domain_acc)
+            model_acc = temp_result[5]
+            set_model_acc.add(model_acc)
 
-        if len(set_domain_acc) != 0:
-            # add to domain table
-            for domain_acc in set_domain_acc:
-                tup_record = (domain_acc,)
-                sql_execute_record(config['insert_domain'].get('query'), tup_record, conn)
+        if len(set_model_acc) != 0:
+            # add to model table
+            for model_acc in set_model_acc:
+                tup_record = (model_acc,)
+                sql_execute_record(config['insert_model'].get('query'), tup_record, conn)
 
             # add to protein table
             tup_record = (prot_acc, genome_id)
             protein_id = sql_execute_record_get_lastrowid(config['insert_protein'].get('query'), tup_record, conn)
     
-            # add to protein_domain table
-            for domain_acc in set_domain_acc:
-                # get domain_id
-                tup_record = (domain_acc,)
-                domain_id = sql_execute_record_get_fetchoneid(config['select_domain_id'].get('query'), tup_record, conn)
+            # add to protein_model table
+            for model_acc in set_model_acc:
+                # get model_id
+                tup_record = (model_acc,)
+                model_id = sql_execute_record_get_fetchoneid(config['select_model_id'].get('query'), tup_record, conn)
         
-                # add to protein_domain table
-                tup_record = (protein_id, domain_id)
-                sql_execute_record(config['insert_protein_domain'].get('query'), tup_record, conn)
+                # add to protein_model table
+                tup_record = (protein_id, model_id)
+                sql_execute_record(config['insert_protein_model'].get('query'), tup_record, conn)
 
     conn.commit()
     conn.close()
@@ -111,8 +111,8 @@ def build_dom(out_fol_path, args, config, all_hmm_result_path):
         with conn:
             sql_execute(config['create_genome'].get('query'), conn)
             sql_execute(config['create_protein'].get('query'), conn)
-            sql_execute(config['create_domain'].get('query'), conn)
-            sql_execute(config['create_protein_domain'].get('query'), conn)
+            sql_execute(config['create_model'].get('query'), conn)
+            sql_execute(config['create_protein_model'].get('query'), conn)
 
     ##############
 
@@ -168,9 +168,9 @@ def main():
     config.read(template_query_path)
 
     head_run = textwrap.dedent('''\
-            Protein Functional Domain Analysis
+            ProdMX - Protein Functional Domain Analysis
             based on Compressed Sparse Matrix
-            ************************************
+            *******************************************
             - Build a protein domain matrix
         ''')
 

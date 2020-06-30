@@ -56,11 +56,11 @@ def sql_execute_record_get_fetchoneid(sql, tup_record, conn):
     c = conn.cursor()
     return c.execute(sql, tup_record).fetchone()[0]
 
-def sql_select_list_domain_protein(list_genome, list_domain, sql, conn):
+def sql_select_list_model_protein(list_genome, list_model, sql, conn):
     list_result = []
     for genome in list_genome:
-        for domain in list_domain:
+        for model in list_model:
             c = conn.cursor()
-            tup = (genome, domain)
+            tup = (genome, model)
             list_result = list(itertools.chain(list_result, c.execute(sql, tup).fetchall()))
     return list_result

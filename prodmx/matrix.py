@@ -4,7 +4,7 @@ import pickle
 import pandas as pd
 from configparser import ConfigParser
 from scipy.sparse import load_npz
-from prodmx.util import sparse_row_col, sql_select_list_domain_protein
+from prodmx.util import sparse_row_col, sql_select_list_model_protein
 
 class loadMatrix(object):
     def __init__(self, matrix_fol):
@@ -19,10 +19,10 @@ class loadMatrix(object):
         self.dict_col_pos = dict(zip(self.obj_pickle.list_col, [x for x in range(len(self.obj_pickle.list_col))]))
         self.dict_pos_col = {v: k for k, v in self.dict_col_pos.items()}
 
-    def get_row(self):
+    def getRow(self):
         return self.obj_pickle.list_row
 
-    def get_col(self):
+    def getColumn(self):
         return self.obj_pickle.list_col
     
     def sumColumn(self, list_row, list_col):
@@ -58,7 +58,7 @@ class loadMatrix(object):
             config.read(template_query_path)
             conn = sqlite3.connect(self.path_db)
             with conn:
-                list_result = sql_select_list_domain_protein(list_row, list_col, config['select_domain_protein'].get('query'), conn)
+                list_result = sql_select_list_model_protein(list_row, list_col, config['select_model_protein'].get('query'), conn)
             df_result = pd.DataFrame(list_result)
             df_result.to_csv(output, sep='\t', index=False, header=False)
         else:
@@ -82,10 +82,10 @@ class loadBinMatrix(object):
         self.dict_col_pos = dict(zip(self.obj_pickle.list_col, [x for x in range(len(self.obj_pickle.list_col))]))
         self.dict_pos_col = {v: k for k, v in self.dict_col_pos.items()}
 
-    def get_row(self):
+    def getRow(self):
         return self.obj_pickle.list_row
 
-    def get_col(self):
+    def getColumn(self):
         return self.obj_pickle.list_col
     
     def sumColumn(self, list_row, list_col):
@@ -121,7 +121,7 @@ class loadBinMatrix(object):
             config.read(template_query_path)
             conn = sqlite3.connect(self.path_db)
             with conn:
-                list_result = sql_select_list_domain_protein(list_row, list_col, config['select_domain_protein'].get('query'), conn)
+                list_result = sql_select_list_model_protein(list_row, list_col, config['select_model_protein'].get('query'), conn)
             df_result = pd.DataFrame(list_result)
             df_result.to_csv(output, sep='\t', index=False, header=False)
         else:
