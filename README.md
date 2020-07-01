@@ -11,8 +11,16 @@ ProdMX is a tool with user-friendly utilities developed to facilitate high-throu
     * [tqdm](https://github.com/tqdm/tqdm)
     * [scipy](https://github.com/scipy/scipy)
 
-### Installation from source
-
+### Installation
+#### PyPi
+```
+pip install prodmx
+```
+#### Conda
+```
+conda install -c visanu prodmx
+```
+#### Source code
 ```
 git clone https://github.com/visanuwan/prodmx
 python -m pip install prodmx
