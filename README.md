@@ -1,4 +1,8 @@
 ## ProdMX : Protein Functional Domain based on Compressed Sparse Matrices
+[![PyPI version](https://badge.fury.io/py/prodmx.svg)](https://badge.fury.io/py/prodmx)
+[![Anaconda-Server Badge](https://anaconda.org/visanu/prodmx/badges/version.svg)](https://anaconda.org/visanu/prodmx)
+[![Anaconda-Server Badge](https://anaconda.org/visanu/prodmx/badges/platforms.svg)](https://anaconda.org/visanu/prodmx)
+[![Anaconda-Server Badge](https://anaconda.org/visanu/prodmx/badges/license.svg)](https://anaconda.org/visanu/prodmx)
 
 ProdMX is a tool with user-friendly utilities developed to facilitate high-throughput analysis of protein functional domains and domain architectures. The ProdMX employs a compressed sparse matrix algorithm to reduce computational resources and time used to perform the matrix manipulation during functional domain analysis.
 
