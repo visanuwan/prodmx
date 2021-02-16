@@ -6,6 +6,15 @@
 
 ProdMX is a tool with user-friendly utilities developed to facilitate high-throughput analysis of protein functional domains and domain architectures. The ProdMX employs a compressed sparse matrix algorithm to reduce computational resources and time used to perform the matrix manipulation during functional domain analysis.
 
+### Citation
+If you use this software please cite: [10.1016/j.csbj.2020.10.023](https://doi.org/10.1016/j.csbj.2020.10.023)
+
+> ProdMX: Rapid query and analysis of protein functional domain based on compressed sparse matrices 
+>  
+> Visanu Wanchai, Intawat Nookaew, David W. Ussery
+> 
+>Computational and structural biotechnology journal 18, 3890-3896; doi: https://doi.org/10.1016/j.csbj.2020.10.023
+
 ### Dependencies
 
 * Python 3.5 or newer and the following packages:
